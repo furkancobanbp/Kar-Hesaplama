@@ -7,6 +7,7 @@ namespace Kar_Hesaplama
     {
         databaseOperations dbOp;
         clsKayitModels kayitModel;
+        int id;
         public Form1()
         {
             InitializeComponent();
@@ -31,7 +32,6 @@ namespace Kar_Hesaplama
             txtGerekceliEak.DataBindings.Add("Text", kayitModel, "gerekceliEak", true, DataSourceUpdateMode.OnPropertyChanged);
             txtArizaDengeleme.DataBindings.Add("Text", kayitModel, "arizaDengelemeMiktar", true, DataSourceUpdateMode.OnPropertyChanged);
             comboTalimatYonu.DataBindings.Add("SelectedValue", kayitModel, "talimatYon_id", true, DataSourceUpdateMode.OnPropertyChanged);
-            comboTalimatYonu.DataBindings.Add("SelectedValue", kayitModel, "talimatYon_id", true, DataSourceUpdateMode.OnPropertyChanged);
             txtBirakilanTalimat.DataBindings.Add("Text", kayitModel, "birakilanTalimat", true, DataSourceUpdateMode.OnPropertyChanged);
             txtGelenTalimat.DataBindings.Add("Text", kayitModel, "gelenTalimat", true, DataSourceUpdateMode.OnPropertyChanged);
             txtTeslimEdilenTalimat.DataBindings.Add("Text", kayitModel, "teslimEdilenTalimat", true, DataSourceUpdateMode.OnPropertyChanged);
@@ -45,6 +45,22 @@ namespace Kar_Hesaplama
         private void comboSirketAdi_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboUevcbAdi.DataSource = dbOp.getUevcb(Convert.ToInt32(comboSirketAdi.SelectedValue));
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dbOp.insertRecord(kayitModel);
+        }
+
+        private void btnTumunuListele_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = dbOp.getKayitlar();
+        }
+
+        private void dataGridView1_DoubleClick(object sender, DataGridViewCellEventArgs e)
+        {            
+            id = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
+            kayitModel = dbOp.fillForms(id);
         }
     }
 }

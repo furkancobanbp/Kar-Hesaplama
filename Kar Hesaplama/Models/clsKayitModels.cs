@@ -30,16 +30,17 @@ namespace Kar_Hesaplama.Models
     }
     public class GetKayitlar
     {
-        public String? islemTuru { get; set; }
+        public int id { get; set; }
+        public String islemTur { get; set; }
         public DateTime Tarih { get; set; }
         public int saat { get; set; }
         public String sirketAdi { get; set; }
-        public String UEVCB { get; set; }
+        public String uevcbAdi { get; set; }
         public decimal uevcbEak { get; set; }
         public decimal uevcbKgup { get; set; }
         public decimal gerekceliEak { get; set; }
         public decimal arizaDengelemeMiktar { get; set; }
-        public int talimatYonu { get; set; }
+        public String yonAdi { get; set; }
         public decimal birakilanTalimat { get; set; }
         public decimal gelenTalimat { get; set; }
         public decimal teslimEdilenTalimat { get; set; }

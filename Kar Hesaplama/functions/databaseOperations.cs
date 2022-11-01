@@ -2,6 +2,7 @@
 using Dapper;
 using Kar_Hesaplama.Models;
 using System.Linq;
+using System.Data.SQLite.Linq;
 
 namespace Kar_Hesaplama.functions
 {
@@ -42,7 +43,42 @@ namespace Kar_Hesaplama.functions
         }
         public void insertRecord(clsKayitModels kayitModel)
         {
+            var sql = "insert into tblAylikTablo" +
+                "(islemTur_id, Tarih, saat, sirket_id, uevcb_id, uevcbEak, uevcbKgup, gerekceliEak, arizaDengelemeMiktar," +
+                " talimatYon_id, birakilanTalimat, gelenTalimat, teslimEdilenTalimat, gipSatisMiktar, gipSatisTutar, sistemYonu, " +
+                "grupDengesizligi, aksaDengesizligi) values " +
+                "(@islemTur_id, @Tarih, @saat, @sirket_id, @uevcb_id, @uevcbEak, @uevcbKgup, @gerekceliEak, @arizaDengelemeMiktar," +
+                " @talimatYon_id, @birakilanTalimat, @gelenTalimat, @teslimEdilenTalimat, @gipSatisMiktar, @gipSatisTutar, @sistemYonu, " +
+                "@grupDengesizligi, @aksaDengesizligi)";
+
             conn.Open();
+            conn.Execute(sql, kayitModel);
+            conn.Close();
+            MessageBox.Show("Kayıt Tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        public List<GetKayitlar> getKayitlar()
+        {
+            var sql = "select t.id, i.islemTur, t.Tarih, t.saat, s.sirketAdi, u.uevcbAdi, t.uevcbEak, t.uevcbKgup, t.gerekceliEak, y.yonAdi, t.birakilanTalimat, t.gelenTalimat, t.teslimEdilenTalimat, " +
+            "t.gipSatisMiktar, t.gipSatisTutar, t.sistemYonu, t.grupDengesizligi, t.aksaDengesizligi " +
+            "from tblAylikTablo t, tbl_islemTuru i, tblTalimatYonu y, tblSirket s, tblUevcb u " +
+            "where t.islemTur_id = i.id " +
+            "and t.talimatYon_id = y.yon_id " +
+            "and t.sirket_id = s.sirket_id " +
+            "and s.sirket_id = u.sirket_id ";
+            conn.Open();
+            var results = conn.Query<GetKayitlar>(sql).ToList();
+            conn.Close();
+            return results;
+            
+        }
+        public clsKayitModels fillForms(int id)
+        {
+            clsKayitModels model = new clsKayitModels();
+            var sql = "select * from tblAylikTablo where id = " + id + "";
+            conn.Open();
+            conn.Execute(sql, model);
+            conn.Close();
+            return model;
             
         }
     }
