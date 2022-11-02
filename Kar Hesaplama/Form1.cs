@@ -1,5 +1,6 @@
 using Kar_Hesaplama.functions;
 using Kar_Hesaplama.Models;
+using System.Reflection;
 
 namespace Kar_Hesaplama
 {
@@ -57,7 +58,11 @@ namespace Kar_Hesaplama
         private void dataGridView1_DoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             id = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
-            kayitModel = dbOp.fillForms(id).;            
+            var results = dbOp.fillForms(id).ToArray();
+            var type = results.GetType();
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            
+            
         }
     }
 }
