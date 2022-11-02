@@ -27,6 +27,7 @@ namespace Kar_Hesaplama.Models
         public decimal sistemYonu { get; set; }
         public decimal grupDengesizligi { get; set; }
         public decimal aksaDengesizligi { get; set; }
+        
     }
     public class GetKayitlar
     {

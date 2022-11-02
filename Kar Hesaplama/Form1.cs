@@ -8,10 +8,13 @@ namespace Kar_Hesaplama
         databaseOperations dbOp;
         clsKayitModels kayitModel;
         int id;
+
         public Form1()
         {
             InitializeComponent();
             dbOp = new databaseOperations();
+            kayitModel = new clsKayitModels();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -19,8 +22,6 @@ namespace Kar_Hesaplama
             comboSirketAdi.DataSource = dbOp.getSirket();
             comboIslemTuru.DataSource = dbOp.get_islemTur();
             comboTalimatYonu.DataSource = dbOp.getTalimatYonu();
-
-            kayitModel = new clsKayitModels();
 
             comboIslemTuru.DataBindings.Add("SelectedValue", kayitModel, "islemTur_id", true, DataSourceUpdateMode.OnPropertyChanged);
             dateTarih.DataBindings.Add("Value", kayitModel, "Tarih", true, DataSourceUpdateMode.OnPropertyChanged);
@@ -41,26 +42,22 @@ namespace Kar_Hesaplama
             txtGrupDengesizligi.DataBindings.Add("Text", kayitModel, "grupDengesizligi", true, DataSourceUpdateMode.OnPropertyChanged);
             txtAksaDeng.DataBindings.Add("Text", kayitModel, "aksaDengesizligi", true, DataSourceUpdateMode.OnPropertyChanged);
         }
-
         private void comboSirketAdi_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboUevcbAdi.DataSource = dbOp.getUevcb(Convert.ToInt32(comboSirketAdi.SelectedValue));
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             dbOp.insertRecord(kayitModel);
         }
-
         private void btnTumunuListele_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = dbOp.getKayitlar();
         }
-
         private void dataGridView1_DoubleClick(object sender, DataGridViewCellEventArgs e)
-        {            
+        {
             id = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
-            kayitModel = dbOp.fillForms(id);
+            kayitModel = dbOp.fillForms(id).;            
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Kar_Hesaplama.functions
     public class databaseOperations
     {
         public SQLiteConnection conn = new SQLiteConnection("Data Source = celiklerFurkanDb.db");
+
         public List<clsBasicModels> getSirket()
         {
             var Sql = "select sirket_id id, sirketAdi Appearence from tblSirket";
@@ -64,22 +65,19 @@ namespace Kar_Hesaplama.functions
             "where t.islemTur_id = i.id " +
             "and t.talimatYon_id = y.yon_id " +
             "and t.sirket_id = s.sirket_id " +
-            "and s.sirket_id = u.sirket_id ";
+            "and t.uevcb_id = u.uevcb_id order by t.Tarih";
             conn.Open();
             var results = conn.Query<GetKayitlar>(sql).ToList();
             conn.Close();
             return results;
-            
         }
-        public clsKayitModels fillForms(int id)
-        {
-            clsKayitModels model = new clsKayitModels();
+        public List<clsKayitModels> fillForms(int id)
+        {            
             var sql = "select * from tblAylikTablo where id = " + id + "";
             conn.Open();
-            conn.Execute(sql, model);
+            var results = conn.Query<clsKayitModels>(sql).ToList();            
             conn.Close();
-            return model;
-            
+            return results;
         }
     }
 }
